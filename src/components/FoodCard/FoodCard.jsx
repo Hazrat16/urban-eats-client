@@ -5,14 +5,14 @@ import useAxiosSecure from "../../hooks/useAxiosSecure";
 import useCart from "../../hooks/useCart";
 
 const FoodCard = ({ item }) => {
-  const { name, image, price, recipe, _id } =                    item;
+  const { name, image, price, recipe, _id } = item;
   const navigate = useNavigate();
   const location = useLocation();
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
   const [, refetch] = useCart();
 
-  const handleAddToCart =() => {
+  const handleAddToCart = () => {
     if (user && user?.email) {
       //send cart item to the database
       const cartItem = {

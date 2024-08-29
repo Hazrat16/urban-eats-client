@@ -4,6 +4,7 @@ module.exports = {
     browser: true,
     es2020: true,
     node: true,
+    jest: true,
   },
   parserOptions: {
     ecmaVersion: "latest",
@@ -55,7 +56,20 @@ module.exports = {
       },
     ],
     "import/newline-after-import": ["error", { count: 1 }],
-    "import/no-extraneous-dependencies": "error",
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        devDependencies: [
+          "**/*.test.js",
+          "**/*.spec.js",
+          "**/__tests__/**",
+          "**/*.test.jsx",
+          "**/*.spec.jsx",
+          "jest.setup.js",
+          "src/setupTests.js",
+        ],
+      },
+    ],
     "import/prefer-default-export": "off",
   },
 };

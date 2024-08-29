@@ -87,3 +87,8 @@ jobs:
           fi
         env:
           CHANGED_FILES: ${{ env.CHANGED_FILES }}
+
+      - name: Run tests
+        run: npm test
+        env:
+          CI: true
