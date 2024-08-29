@@ -1,0 +1,3 @@
+.creditCard.rearIsVisible {
+  transform: rotateY(-180deg);
+}
