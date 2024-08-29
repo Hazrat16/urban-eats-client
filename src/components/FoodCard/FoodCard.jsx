@@ -5,7 +5,7 @@ import useAxiosSecure from "../../hooks/useAxiosSecure";
 import useCart from "../../hooks/useCart";
 
 const FoodCard = ({ item }) => {
-  const { name, image, price, recipe, _id } =      item;
+  const { name, image, price, recipe, _id } =                    item;
   const navigate = useNavigate();
   const location = useLocation();
   const { user } = useAuth();
