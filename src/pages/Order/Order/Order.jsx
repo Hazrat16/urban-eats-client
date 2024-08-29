@@ -10,7 +10,7 @@ import OrderTab from '../OrderTab/OrderTab';
 
 const Order = () => {
     const categories = ['salad', 'pizza', 'soup', 'dessert', 'drinks'];
-    const { category } =     useParams();
+    const { category } =              useParams();
     const initialIndex = categories.indexOf(category);
     const [tabIndex, setTabIndex] = useState(initialIndex);
     const [menu] = useMenu();
