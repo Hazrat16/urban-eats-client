@@ -31,7 +31,6 @@ jobs:
         run: |
           git config --global user.email hazrat17016@gmail.com
           git config --global user.name "Hazrat16"
-          echo "GitCred=$(git config --list)"
 
       - name: Get branch name
         id: get_branch
@@ -43,22 +42,32 @@ jobs:
           echo "Branch to merge: ${{ env.BRANCH_NAME }}"
           git branch -a
           git log --oneline --decorate --graph --all
+          git fetch origin
+          git branch -r
 
       - name: Checkout dev branch
         run: |
           git fetch origin dev
           git checkout dev
+          git pull origin dev
 
       - name: Fetch feature branch
         run: |
           git fetch origin ${{ env.BRANCH_NAME }}
+          git checkout ${{ env.BRANCH_NAME }}
 
-      - name: Merge feature branch into dev
+      - name: Attempt to Merge Feature Branch into Dev
         run: |
-          git merge --no-ff ${{ env.BRANCH_NAME }} || echo "Merge failed. Conflicts need to be resolved manually. See the logs for details." && exit 1
+          git checkout dev
+          git merge --no-ff ${{ env.BRANCH_NAME }} || {
+            echo "Merge failed. Details:";
+            git status;
+            git diff;
+            exit 1;
+          }
 
       - name: Push changes to dev
-        if: success()
+        if: success() # Only push if the merge succeeded
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
