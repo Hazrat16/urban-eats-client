@@ -31,7 +31,7 @@ jobs:
       - name: Determine changed files
         id: changed-files
         run: |
-          if [ "${{ github.event_name }}" = "pull_request" ]; then
+          if [ "${{ github.event_name }}" = "pull_request" || "${{ github.event_name }}" = "push" ]; then
             BASE_BRANCH="${{ github.event.pull_request.base.sha }}"
             HEAD_BRANCH="${{ github.event.pull_request.head.sha }}"
             CHANGED_FILES=$(git diff --name-only "$BASE_BRANCH" "$HEAD_BRANCH" | grep -E '\.jsx?$')
@@ -106,22 +106,29 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Set up Git credentials
-        run: |
-          git config --global user.email hazrat17016@gmail.com
-          git config --global user.name "Hazrat16"
+      # - name: Set up Git credentials
+      #   run: |
+      #     git config --global user.email hazrat17016@gmail.com
+      #     git config --global user.name "Hazrat16"
 
-      - name: Fetch all branches
-        run: git fetch origin
+      - name: Get current branch name
+        id: get_branch
+        run: echo "BRANCH_NAME=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
 
       - name: Checkout dev branch
         run: git checkout dev
 
+      - name: Fetch all branches
+        run: git fetch origin
+
       - name: Merge feature branch into dev
-        run: git merge --no-ff ${{ github.head_ref }}
+        run: |
+          git merge --no-ff ${{ env.BRANCH_NAME }} || {
+            echo "Merge failed. Resolve conflicts manually.";
+            exit 1;
+          }
 
       - name: Push changes to dev
-        env:
-          PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
         run: |
-          git push https://x-access-token:${PAT_TOKEN}@github.com/Hazrat16/urban-eats-client.git dev
+          git remote set-url origin https://x-access-token:${{ secrets.PAT }}@github.com/${{ github.repository }}
+          git push origin dev
