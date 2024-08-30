@@ -27,8 +27,8 @@ jobs:
 
       - name: Set up Git credentials
         run: |
-          git config --global user.email "you@example.com"
-          git config --global user.name "Your Name"
+          git config --global user.email hazrat17016@gmail.com
+          git config --global user.name Hazrat16
 
       - name: Merge to dev
         run: |
