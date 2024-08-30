@@ -37,6 +37,10 @@ jobs:
         run: git checkout dev
 
       - name: Merge feature branch into dev
+        run: git merge --no-ff ${{ github.head_ref }}
+
+      - name: Push changes to dev
+        env:
+          PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
         run: |
-          git merge --no-ff ${{ github.head_ref }}
-          git push origin dev
+          git push https://x-access-token:${PAT_TOKEN}@github.com/Hazrat16/urban-eats-client.git dev
