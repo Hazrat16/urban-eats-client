@@ -58,7 +58,7 @@ jobs:
           git merge --no-ff ${{ env.BRANCH_NAME }} || echo "Merge failed. Conflicts need to be resolved manually. See the logs for details." && exit 1
 
       - name: Push changes to dev
-        if: success() # Only push if the merge succeeded
+        if: success()
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
