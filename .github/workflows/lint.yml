@@ -129,8 +129,8 @@ jobs:
 
       - name: Fetch feature branch
         run: |
-          git fetch origin ${{ env.BRANCH_NAME }}:refs/remotes/origin/${{ env.BRANCH_NAME }}
-          git branch -r
+          git fetch origin ${{ env.BRANCH_NAME }}:${{ env.BRANCH_NAME }}
+           git branch -r
 
       - name: Merge feature branch into dev
         run: |
