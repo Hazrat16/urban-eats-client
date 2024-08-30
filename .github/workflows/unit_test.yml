@@ -55,12 +55,10 @@ jobs:
 
       - name: Merge feature branch into dev
         run: |
-          git merge --no-ff ${{ env.BRANCH_NAME }} || {
-            echo "Merge failed. Resolve conflicts manually.";
-            exit 1;
-          }
+          git merge --no-ff ${{ env.BRANCH_NAME }} || echo "Merge failed. Conflicts need to be resolved manually. See the logs for details." && exit 1
 
       - name: Push changes to dev
+        if: success() # Only push if the merge succeeded
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
