@@ -4,6 +4,7 @@ module.exports = {
     browser: true,
     es2020: true,
     node: true,
+    jest: true,
   },
   parserOptions: {
     ecmaVersion: "latest",
@@ -30,10 +31,17 @@ module.exports = {
         moduleDirectory: ["node_modules", "src/"],
       },
     },
+    react: {
+      version: "detect",
+      pragma: "React",
+      fragment: "Fragment",
+    },
   },
   rules: {
     "react/jsx-no-target-blank": "off",
     "react/prop-types": "off",
+    "react/react-in-jsx-scope": "off",
+    "react/jsx-uses-react": "off",
     "react-refresh/only-export-components": [
       "warn",
       { allowConstantExport: true },
@@ -55,7 +63,20 @@ module.exports = {
       },
     ],
     "import/newline-after-import": ["error", { count: 1 }],
-    "import/no-extraneous-dependencies": "error",
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        devDependencies: [
+          "**/*.test.js",
+          "**/*.spec.js",
+          "**/__tests__/**",
+          "**/*.test.jsx",
+          "**/*.spec.jsx",
+          "jest.setup.js",
+          "src/setupTests.js",
+        ],
+      },
+    ],
     "import/prefer-default-export": "off",
   },
 };
