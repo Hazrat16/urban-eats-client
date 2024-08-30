@@ -132,6 +132,9 @@ jobs:
 
       - name: Merge feature branch into dev
         run: |
+          git fetch origin
+          git checkout dev
+          echo "Merging branch ${{ env.BRANCH_NAME }} into dev"
           git merge --no-ff ${{ env.BRANCH_NAME }} || {
             echo "Merge failed. Resolve conflicts manually.";
             exit 1;
