@@ -112,20 +112,11 @@ jobs:
           git config --global user.name "Hazrat16"
           echo "GitCred=$(git config --list)"
 
-      - name: Get branch name
-        id: get_branch
+      - name: Debug information
         run: |
-          if [ "${{ github.event_name }}" == "pull_request" ]; then
-            echo "BRANCH_NAME=${{ github.head_ref }}" >> $GITHUB_ENV
-          else
-            echo "BRANCH_NAME=${{ github.ref_name }}" >> $GITHUB_ENV
-          fi
-
-          - name: Debug information
-          run: |
-            echo "Branch to merge: ${{ env.BRANCH_NAME }}"
-            git branch -a
-            git log --oneline --decorate --graph --all
+          echo "Branch to merge: ${{ env.BRANCH_NAME }}"
+          git branch -a
+          git log --oneline --decorate --graph --all
 
       - name: Create and Checkout dev branch (if not exists)
         run: |
