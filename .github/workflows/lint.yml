@@ -3,10 +3,10 @@ name: Lint changed JS/JSX files
 on:
   push:
     branches:
-      - main
+      - "feature/*"
   pull_request:
     branches:
-      - main
+      - "dev"
 
 jobs:
   lint:
@@ -87,3 +87,42 @@ jobs:
           fi
         env:
           CHANGED_FILES: ${{ env.CHANGED_FILES }}
+
+  unit_test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Run Unit Tests
+        run: |
+          npm install
+          npm test
+
+  merge_to_dev:
+    runs-on: ubuntu-latest
+    needs: unit_test
+    if: success()
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Git credentials
+        run: |
+          git config --global user.email hazrat17016@gmail.com
+          git config --global user.name "Hazrat16"
+
+      - name: Fetch all branches
+        run: git fetch origin
+
+      - name: Checkout dev branch
+        run: git checkout dev
+
+      - name: Merge feature branch into dev
+        run: git merge --no-ff ${{ github.head_ref }}
+
+      - name: Push changes to dev
+        env:
+          PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
+        run: |
+          git push https://x-access-token:${PAT_TOKEN}@github.com/Hazrat16/urban-eats-client.git dev
