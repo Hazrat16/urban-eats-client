@@ -121,11 +121,14 @@ jobs:
             echo "BRANCH_NAME=${{ github.ref_name }}" >> $GITHUB_ENV
           fi
 
-      - name: Checkout dev branch
-        run: git checkout dev
-
-      - name: Fetch all branches
-        run: git fetch origin
+      - name: Create and Checkout dev branch (if not exists)
+        run: |
+          git fetch origin
+          if git show-ref --verify --quiet refs/heads/dev; then
+            git checkout dev
+          else
+            git checkout -b dev origin/dev
+          fi
 
       - name: Merge feature branch into dev
         run: |
