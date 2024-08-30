@@ -1,12 +1,11 @@
-name: Lint changed JS/JSX files
-
+name: CI checks
 on:
   push:
     branches:
-      - main
+      - "feature/*"
   pull_request:
     branches:
-      - main
+      - "dev"
 
 jobs:
   lint:
