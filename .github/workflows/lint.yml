@@ -1,5 +1,4 @@
-name: Lint changed JS/JSX files
-
+name: CI checks
 on:
   push:
     branches:
