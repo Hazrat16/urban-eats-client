@@ -36,7 +36,6 @@ jobs:
       - name: Get branch name
         id: get_branch
         run: |
-          echo "Branch name: ${{ github.head_ref }}" >> $GITHUB_ENV
           echo "BRANCH_NAME=${{ github.head_ref }}" >> $GITHUB_ENV
 
       - name: Debug information
