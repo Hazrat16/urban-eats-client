@@ -110,7 +110,7 @@ jobs:
         run: |
           git config --global user.email hazrat17016@gmail.com
           git config --global user.name "Hazrat16"
-          echo "GitCred=$git config --list"
+          echo "GitCred=$(git config --list)"
 
       - name: Get current branch name
         id: get_branch
