@@ -51,20 +51,6 @@ jobs:
           echo "CHANGED_FILES=$CHANGED_FILES" >> $GITHUB_ENV
         shell: bash
 
-      - name: Verify file existence
-        run: |
-          echo "Verifying file existence..."
-          pwd
-          echo "$CHANGED_FILES" | while read -r file; do
-            if [ -f "$file" ]; then
-              echo "$file exists"
-            else
-              echo "$file does not exist"
-            fi
-          done
-        env:
-          CHANGED_FILES: ${{ env.CHANGED_FILES }}
-
       - name: Run lint on changed files
         run: |
           pwd
@@ -118,14 +104,6 @@ jobs:
         id: get_branch
         run: |
           echo "BRANCH_NAME=${{ github.head_ref }}" >> $GITHUB_ENV
-
-      - name: Debug information
-        run: |
-          echo "Branch to merge: ${{ env.BRANCH_NAME }}"
-          git branch -a
-          git log --oneline --decorate --graph --all
-          git fetch origin
-          git branch -r
 
       - name: Checkout dev branch
         run: |
