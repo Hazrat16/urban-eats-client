@@ -36,7 +36,10 @@ jobs:
             HEAD_BRANCH="${{ github.event.pull_request.head.sha }}"
             CHANGED_FILES=$(git diff --name-only "$BASE_BRANCH" "$HEAD_BRANCH" | grep -E '\.jsx?$')
           else
-            CHANGED_FILES=$(git diff --name-only HEAD^ HEAD | grep -E '\.jsx?$')
+            # For push events, we assume comparing against the previous commit
+            BASE_BRANCH="HEAD^"
+            HEAD_BRANCH="HEAD"
+            CHANGED_FILES=$(git diff --name-only "$BASE_BRANCH" "$HEAD_BRANCH" | grep -E '\.jsx?$')
           fi
 
           # Trim "urban-eats-client/" prefix from file paths
