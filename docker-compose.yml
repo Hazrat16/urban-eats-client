@@ -1,0 +1,23 @@
+version: "3"
+services:
+  urban-eats-client:
+    image: urban-eats-client
+    restart: always
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    stdin_open: true
+    ports:
+      - "5173:5173"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    networks:
+      - urban-eats
+
+networks:
+  urban-eats:
+    driver: bridge
+volumes:
+  mongo-data:
+    driver: local
