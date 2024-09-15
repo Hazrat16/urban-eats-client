@@ -9,7 +9,7 @@ const BookTable = () => {
 
     useEffect(() => {
       // Fetch the bookings data from your API
-      axios.get('https://urban-eats-server.vercel.app/bookings')
+      axios.get('http://localhost:5000/bookings')
         .then((response) => {
           const occupied = response.data.flatMap(booking => booking.bookedTable);
           setOccupiedSeats(occupied);
