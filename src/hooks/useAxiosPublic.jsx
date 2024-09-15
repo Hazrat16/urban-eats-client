@@ -1,11 +1,11 @@
 import axios from "axios";
 
 const axiosPublic = axios.create({
-    baseURL: 'https://urban-eats-server.vercel.app'
-})
+  baseURL: "http://localhost:5000",
+});
 
 const useAxiosPublic = () => {
-    return axiosPublic;
+  return axiosPublic;
 };
 
 export default useAxiosPublic;
