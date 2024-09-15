@@ -39,7 +39,11 @@ export const router = createBrowserRouter([
       },
       {
         path: "book-table",
-        element: <PrivateRoute><BookTable></BookTable></PrivateRoute>,
+        element: (
+          <PrivateRoute>
+            <BookTable></BookTable>
+          </PrivateRoute>
+        ),
       },
       {
         path: "login",
