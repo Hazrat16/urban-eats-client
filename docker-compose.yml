@@ -6,6 +6,7 @@ services:
     build:
       context: .
       dockerfile: ./Dockerfile
+      target: development
     stdin_open: true
     ports:
       - "5173:5173"
@@ -14,6 +15,7 @@ services:
       - /app/node_modules
     networks:
       - urban-eats
+    command: npm run dev
 
 networks:
   urban-eats:
