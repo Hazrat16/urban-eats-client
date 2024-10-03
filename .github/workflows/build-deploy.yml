@@ -7,6 +7,13 @@ on:
   pull_request:
     branches:
       - main
+  workflow_dispatch:
+
+env:
+  PRIVATE_KEY: ${{ secrets.RSA_KEY_FOR_APP_EC2 }}
+  INSTANCE_IP: ${{ vars.INSTANCE_IP }}
+  DOCKERHUB_TOKEN: ${{ secrets.DOCKER_TOKEN }}
+  DOCKERHUB_USERNAME: ${{ secrets.DOCKER_USERNAME }}
 
 jobs:
   build:
@@ -46,8 +53,23 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Set up Docker Compose
-        run: sudo apt-get update && sudo apt-get install docker-compose
+        run: sudo apt-get update && sudo apt-get install docker-compose -y
 
-      - name: Deploy Docker Compose
-        run: |
-          docker-compose -f docker-compose.yml up -d
+      - name: Copy docker-compose and nginx files to EC2
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ env.INSTANCE_IP }}
+          username: ec2-user
+          key: ${{ secrets.RSA_KEY_FOR_APP_EC2 }}
+          source: "docker-compose.production.yml,nginx.conf"
+          target: "~/"
+
+      - name: SSH into EC2 and deploy Docker Compose
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ env.INSTANCE_IP }}
+          username: ec2-user
+          key: ${{ secrets.RSA_KEY_FOR_APP_EC2 }}
+          script: |
+            docker-compose -f docker-compose.production.yml up -d
+            docker image prune -f
