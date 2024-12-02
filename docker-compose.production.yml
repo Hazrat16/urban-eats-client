@@ -4,7 +4,9 @@ services:
     build:
       context: .
       dockerfile: ./Dockerfile
-      target: production
+      target:
+      ports:
+        - "80:5173"
     environment:
       - NODE_ENV=production
     networks:
