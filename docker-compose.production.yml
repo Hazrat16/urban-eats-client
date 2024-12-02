@@ -2,7 +2,7 @@ version: "3"
 services:
   urban-eats-client:
     build:
-      context: .
+      context: ./urban-eats-client
       dockerfile: ./Dockerfile
       target: production
     environment:
